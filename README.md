@@ -13,11 +13,11 @@ yarn add -D vite-plugin-crx3
 In your `vite.config.ts`:
 
 ```ts
-import { crxPack } from 'vite-plugin-crx3'
+import { crx3 } from 'vite-plugin-crx3'
 
 export default defineConfig({
   plugins: [
-    crxPack({
+    crx3({
       outDir: 'release',
       outFileName: 'my-extension.crx',
     })

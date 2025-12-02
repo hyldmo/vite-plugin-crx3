@@ -1,16 +1,22 @@
 /// <reference path="./crx3.d.ts" />
 import fs from 'node:fs'
 import path from 'node:path'
-import crx3 from 'crx3'
+import crx3Pack from 'crx3'
 import type { Plugin } from 'vite'
 
-export interface Options {
+/**
+ * Options for the crx3 plugin
+ */
+export interface CrxOptions {
+	/** Output directory for the .crx file (resolved relative to project root) */
 	outDir: string
+	/** Name of the output .crx file */
 	outFileName: string
+	/** Optional private key string for signing. If not provided, will use key.pem from project root or generate a new one */
 	pem?: string
 }
 
-export function crxPack(options: Options): Plugin {
+export function crx3(options: CrxOptions): Plugin {
 	return {
 		name: 'vite-plugin-crx3',
 		apply: 'build',
@@ -46,7 +52,7 @@ export function crxPack(options: Options): Plugin {
 			try {
 				const outputPath = path.join(outDir, options.outFileName)
 
-				await crx3([distDir], {
+				await crx3Pack([distDir], {
 					keyPath: keyPath,
 					crxPath: outputPath
 				})
