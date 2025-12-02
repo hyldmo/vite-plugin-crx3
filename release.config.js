@@ -1,8 +1,3 @@
-import path from 'node:path'
-import fs from 'node:fs'
-
-const pkg = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json'), 'utf-8'))
-
 export default {
 	branches: ['main'],
 	plugins: [
@@ -19,9 +14,9 @@ export default {
 			'@semantic-release/git',
 			{
 				assets: ['package.json', 'yarn.lock', 'CHANGELOG.md'],
+				// biome-ignore lint/suspicious/noTemplateCurlyInString: templated from library
 				message: 'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}'
 			}
 		]
 	]
 }
-

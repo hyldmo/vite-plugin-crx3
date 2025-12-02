@@ -1,6 +1,6 @@
 # vite-plugin-crx3
 
-Vite plugin to pack Chrome extensions into .crx files.
+Vite plugin to pack Chrome extensions into .crx files based on `crx3`
 
 ## Installation
 

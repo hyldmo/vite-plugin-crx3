@@ -1,6 +1,7 @@
 name: CI
 
 permissions:
+  id-token: write
   contents: write
   issues: write
   pull-requests: write
@@ -17,59 +18,37 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v5
         with:
-          node-version: '22'
-          cache: 'yarn'
-          cache-dependency-path: 'yarn.lock'
+          node-version: "lts/*"
+          cache: "yarn"
+          cache-dependency-path: "yarn.lock"
 
-      - name: Install dependencies
-        run: yarn install --immutable
+      - run: yarn --immutable
+      - run: yarn biome ci
 
       - name: Build
         run: yarn build
-
-      - name: Lint
-        run: yarn lint
-
-      # - name: Test
-      #   run: yarn test
 
   release:
     needs: build-and-test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v5
         with:
-          node-version: '22'
-          cache: 'yarn'
-          cache-dependency-path: 'yarn.lock'
+          node-version: "lts/*"
+          cache: "yarn"
+          cache-dependency-path: "yarn.lock"
 
-
-      - name: Install dependencies
-        run: yarn install --immutable
+      - run: yarn --immutable
 
       - name: Build
         run: yarn build
 
       - name: Release
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: yarn semantic-release
-

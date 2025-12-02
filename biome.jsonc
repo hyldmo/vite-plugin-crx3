@@ -13,7 +13,7 @@
 		"lineWidth": 120,
 		"attributePosition": "auto",
 		"bracketSpacing": true,
-		"includes": ["**", "!**/*.cjs", "!**/package.json"]
+		"includes": ["**", "!**/package.json"]
 	},
 	"linter": {
 		"enabled": true,

@@ -2,3 +2,13 @@ node_modules
 dist
 .DS_Store
 *.pem
+
+.yarn/install-state.gz
+.yarn/cache/
+.pnp.*
+.pnp.cjs
+
+release/
+temp_crx/
+credentials.json
+client_secret_*.json
