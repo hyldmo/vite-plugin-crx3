@@ -1,6 +1,6 @@
 {
 	"name": "vite-plugin-crx3",
-	"version": "0.0.0-development",
+	"version": "1.0.0",
 	"description": "Vite plugin to pack Chrome extensions into .crx files.",
 	"type": "module",
 	"files": [
