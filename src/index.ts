@@ -12,7 +12,9 @@ export interface CrxOptions {
 	outDir: string
 	/** Name of the output .crx file */
 	outFileName: string
-	/** Optional private key string for signing. If not provided, will use key.pem from project root or generate a new one */
+	/** Optional private key for signing. C
+	 * an be a filepath (relative to project root or absolute) or PEM content string.
+	 * If not provided, will use key.pem from project root or generate a temporary key */
 	pem?: string
 }
 
@@ -38,11 +40,21 @@ export function crx3(options: CrxOptions): Plugin {
 				fs.mkdirSync(outDir, { recursive: true })
 			}
 
-			// 1. If options.pem provided, write to temp file
+			// 1. If options.pem provided, check if it's a filepath or PEM content
 			if (options.pem) {
-				usingTempKey = true
-				keyPath = path.join(rootDir, 'temp.pem')
-				fs.writeFileSync(keyPath, options.pem)
+				const resolvedPemPath = path.isAbsolute(options.pem)
+					? options.pem
+					: path.resolve(rootDir, options.pem)
+
+				if (fs.existsSync(resolvedPemPath) && fs.statSync(resolvedPemPath).isFile()) {
+					// It's a filepath, use it directly
+					keyPath = resolvedPemPath
+				} else {
+					// It's PEM content, write to temp file
+					usingTempKey = true
+					keyPath = path.join(rootDir, 'temp.pem')
+					fs.writeFileSync(keyPath, options.pem)
+				}
 			}
 
 			// 2. If no options.pem and no local key.pem, crx3 will generate it at keyPath ('key.pem')
