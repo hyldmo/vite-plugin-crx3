@@ -1,0 +1,47 @@
+{
+	"name": "vite-plugin-crx3",
+	"version": "0.0.0-development",
+	"description": "Vite plugin to pack Chrome extensions",
+	"type": "module",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "zshy",
+		"lint": "biome lint .",
+		"lint:fix": "biome lint --apply .",
+		"format": "biome format --write .",
+		"format:check": "biome format ."
+	},
+	"zshy": {
+		"exports": "./src/index.ts"
+	},
+	"peerDependencies": {
+		"vite": "^6.0.0 || ^7.0.0"
+	},
+	"dependencies": {
+		"crx3": "^2.0.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.1.1",
+		"@semantic-release/changelog": "^6.0.3",
+		"@semantic-release/git": "^10.0.1",
+		"@semantic-release/github": "^12.0.2",
+		"@semantic-release/npm": "^13.1.2",
+		"@types/node": "^22.10.0",
+		"semantic-release": "^25.0.2",
+		"typescript": "^5.7.2",
+		"vite": "^6.0.1",
+		"zshy": "^0.4.4"
+	},
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.cts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.cts",
+			"import": "./dist/index.js",
+			"require": "./dist/index.cjs"
+		}
+	}
+}
